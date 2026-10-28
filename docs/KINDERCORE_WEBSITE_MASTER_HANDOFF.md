@@ -73,7 +73,7 @@ SEO не гарантирует автоматического преимуще�
 
 ## 10. Проверка последнего пакета и следующие действия
 
-- GitHub Actions запустил проверки: run #8 для HTML-коммита `06c01cc42b42213ef631b9fd12126a1a5169a4f7` и run #9 для CSS-коммита `9e6650be7bf7d94fc2be12f0466eb55a3949a45c`. На момент записи оба имели статус `in_progress`; результаты: [run #8](https://github.com/SergeyBariev/Kinder-Core-Wabsite/actions/runs/40770704357) и [run #9](https://github.com/SergeyBariev/Kinder-Core-Wabsite/actions/runs/40770709459).
+- GitHub Actions проверки прошли успешно: [run #8 — HTML](https://github.com/SergeyBariev/Kinder-Core-Wabsite/actions/runs/40770704357), [run #9 — CSS](https://github.com/SergeyBariev/Kinder-Core-Wabsite/actions/runs/40770709459), [run #10 — обновление мастер-журнала](https://github.com/SergeyBariev/Kinder-Core-Wabsite/actions/runs/40770790385).
 - Run #5 для предыдущего CSS-коммита завершился успешно: https://github.com/SergeyBariev/Kinder-Core-Wabsite/actions/runs/40767627171.
 - Последние изменения ещё не подтверждены в Cloudflare Production и не проверены в реальном браузере. Не утверждать обратное без отдельной проверки.
 - Следующий шаг: проверить результаты Actions, устранить обнаруженные ошибки, проверить Pages deployment и открыть Production URL; затем визуально проверить desktop и мобильную ширину. Перед публичным продвижением отдельно утвердить контакты, политику конфиденциальности и текст согласия для будущей формы. Форма пока не добавлена.
