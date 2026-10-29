@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-# Add the sitemap URL after the public website address is selected.
+Sitemap: https://kinder-core-wabsite.pages.dev/sitemap.xml
