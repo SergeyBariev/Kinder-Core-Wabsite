@@ -206,3 +206,67 @@ button,a{-webkit-tap-highlight-color:transparent}
  html{scroll-behavior:auto}
  *,*::before,*::after{transition:none!important;animation:none!important}
 }
+
+/* Multi-page website */
+.main-nav a[aria-current="page"]{color:var(--blue)}
+.lang-link{font-weight:800;color:var(--blue)}
+.text-link{display:inline-flex;margin-top:7px;color:var(--blue);font-size:12px;font-weight:800}
+.section-action{display:flex;justify-content:center;margin-top:30px}
+.page-hero{padding:90px 0 70px;background:linear-gradient(135deg,#f2f7ff 0%,#fff 75%);border-bottom:1px solid var(--line)}
+.page-hero h1{max-width:850px;margin:0;font-size:clamp(38px,5vw,58px);line-height:1.12;letter-spacing:-2px}
+.page-hero h1 span{color:var(--blue)}
+.page-hero .lead{max-width:720px;margin:22px 0 0;color:var(--muted);font-size:17px;line-height:1.8}
+.page-hero .button{margin-top:28px}
+.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.detail-card{padding:28px;border:1px solid var(--line);border-radius:15px;background:#fff}
+.detail-number{display:inline-grid;width:36px;height:36px;place-items:center;border-radius:9px;background:var(--pale-blue);color:var(--blue);font-size:11px;font-weight:850}
+.detail-card h2{margin:18px 0 10px;font-size:21px;letter-spacing:-.5px}
+.detail-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.85}
+.steps-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.step-card{padding:25px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.step-card>span{display:inline-grid;width:35px;height:35px;place-items:center;border-radius:9px;background:var(--pale-blue);color:var(--blue);font-size:11px;font-weight:850}
+.step-card h3{margin:17px 0 8px;font-size:17px}
+.step-card p{margin:0;color:var(--muted);font-size:13px;line-height:1.8}
+.steps-vertical{max-width:850px}
+.step-row{display:grid;grid-template-columns:54px minmax(0,1fr);gap:22px;padding:28px 0;border-bottom:1px solid var(--line)}
+.step-bubble{display:grid;width:48px;height:48px;place-items:center;border-radius:13px;background:var(--pale-blue);color:var(--blue);font-size:13px;font-weight:850}
+.step-row h2{margin:0 0 8px;font-size:22px}
+.step-row p{margin:0;color:var(--muted);font-size:14px;line-height:1.85}
+.split-callout{display:flex;align-items:center;justify-content:space-between;gap:35px}
+.split-callout>div{max-width:700px}
+.split-callout h2{margin:0;font-size:clamp(30px,3.5vw,43px);line-height:1.15;letter-spacing:-1.4px}
+.split-callout h2 span{color:var(--blue)}
+.split-callout p{color:var(--muted);font-size:14px;line-height:1.8}
+.pricing-layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(260px,.7fr);gap:20px;align-items:start}
+.pricing-main,.pricing-aside{padding:30px;border:1px solid var(--line);border-radius:16px;background:#fff}
+.rate-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:25px 0}
+.rate-row>div{padding:22px;border-radius:12px;background:var(--pale-blue)}
+.rate-row strong{display:block;color:var(--blue);font-size:42px;line-height:1.2;letter-spacing:-1.5px}
+.rate-row span{display:block;margin-top:7px;color:#526781;font-size:13px;font-weight:650}
+.pricing-main>p:not(.eyebrow){color:var(--muted);font-size:14px;line-height:1.9}
+.pricing-aside h2{margin:0 0 15px;font-size:20px}
+.pricing-aside ul{padding-left:20px;margin:0;color:var(--muted);font-size:13px;line-height:2}
+.faq-list{max-width:900px}
+.faq-list details{padding:22px 0;border-bottom:1px solid var(--line)}
+.faq-list summary{position:relative;padding-right:34px;cursor:pointer;list-style:none;font-size:17px;font-weight:750}
+.faq-list summary::-webkit-details-marker{display:none}
+.faq-list summary:after{content:"+";position:absolute;right:4px;top:-3px;color:var(--blue);font-size:25px;font-weight:500}
+.faq-list details[open] summary:after{content:"−"}
+.faq-list details p{max-width:780px;margin:14px 0 0;color:var(--muted);font-size:14px;line-height:1.85}
+.footer-links{display:flex;flex-wrap:wrap;gap:15px;color:#64748b;font-size:10px}
+.footer-links a:hover{color:var(--blue)}
+@media(max-width:760px){
+ .page-hero{padding:62px 0 48px}
+ .page-hero h1{font-size:39px;letter-spacing:-1.5px}
+ .page-hero .lead{font-size:14px}
+ .detail-grid,.steps-grid,.pricing-layout{grid-template-columns:1fr}
+ .detail-card{padding:23px}
+ .step-row{grid-template-columns:42px minmax(0,1fr);gap:14px;padding:22px 0}
+ .step-bubble{width:40px;height:40px}
+ .step-row h2{font-size:19px}
+ .split-callout{align-items:stretch;flex-direction:column;gap:15px}
+ .rate-row{gap:8px}
+ .rate-row>div{padding:16px}
+ .rate-row strong{font-size:34px}
+ .footer-links{order:4;flex-basis:100%}
+}
