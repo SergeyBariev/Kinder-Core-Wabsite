@@ -20,3 +20,13 @@ if (menuButton && navigation) {
 }
 const year = document.querySelector("#year");
 if (year) year.textContent = String(new Date().getFullYear());
+
+const requestType = document.querySelector('select[name="request_type"]');
+const partnerComment = document.querySelector(".partner-comment");
+if (requestType && partnerComment) {
+  const syncCommentVisibility = () => {
+    partnerComment.hidden = requestType.value !== "partner";
+  };
+  requestType.addEventListener("change", syncCommentVisibility);
+  syncCommentVisibility();
+}
