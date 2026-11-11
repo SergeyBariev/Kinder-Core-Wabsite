@@ -90,7 +90,7 @@ def main():
             if value.startswith(("https://", "http://", "mailto:", "tel:", "data:", "//")):
                 continue
             parts = urlsplit(value)
-            target = page_file(parts.path) if kind == "a" else (ROOT / parts.path.lstrip("/"))
+            target = (page_file(parts.path) if parts.path else ROOT / relative) if kind == "a" else (ROOT / parts.path.lstrip("/"))
             if parts.path and not target.exists():
                 errors.append(f"{relative}: local {kind} reference does not exist: {value}")
                 continue
