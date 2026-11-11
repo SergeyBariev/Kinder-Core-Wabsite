@@ -415,3 +415,19 @@ Binding подтверждает доступность D1 для Pages Function
 4. Не заявлять российскую локализацию Cloudflare D1.
 5. Не продолжать общий аудит Cloudflare Dashboard без конкретной цели. Нужен только документальный ответ о применимых к аккаунту условиях/DPA и, если интерфейс позволяет получить без раскрытия секретов, юридическое имя стороны договора.
 6. Для окончательной редакции от владельца нужен один набор сведений: точное лицо-оператор (ФИО физлица либо наименование ИП/организации в том качестве, в котором фактически ведётся сайт), публичный контакт для обращений и подтверждение, подавалось ли уведомление РКН. Не заполнять эти сведения догадками.
+
+
+## 2026-11-11 — completion branch implementation
+
+- Owner approved audit and immediate implementation after audit (question 30). Changes are isolated in branch feat/website-completion-2026-11-11; main and production settings have not been changed by implementation.
+- Current branch adds updated Russian homepage, English homepage, dedicated Russian and English partner pages, and a transparent privacy-document status page.
+- Homepage includes product positioning, capabilities, target segments, how-it-works, benefits, FAQ, planned payment model and enquiry form UI.
+- Enquiry form uses the agreed fields: name, phone, email, request type; organisation optional; partnership comment appears only for partnership; required consent checkbox is initially unchecked and links to the privacy-status page. Form is intentionally disabled and does not submit or collect personal data.
+- Form activation remains blocked by missing corporate email, mail delivery provider/configuration, operator details, approved privacy policy and consent wording, legal review, and confirmation of applicable Roskomnadzor notification/localisation requirements. Do not present the privacy-status page as an approved policy.
+- Invisible anti-spam is a requirement for the eventual endpoint; do not claim it is implemented until the actual submission endpoint and rate-limiting controls are deployed and tested.
+- Analytics/D1 collection remains disabled. The analytics endpoint exists in the repository but no client event sender is enabled; D1 jurisdiction does not establish Russian localisation.
+- Public Pages URL could not be inspected through the available page fetch in this audit; production visual acceptance remains unverified. CI must pass and owner browser acceptance is still required.
+- No CRM/AI Company repositories, domain, DNS, Cloudflare settings or production deployment configuration were changed.
+
+
+- Additional privacy safeguard: the analytics API now returns 503 unless both the D1 binding exists and the explicit environment flag ANALYTICS_ENABLED=true is set. The default is off; no Cloudflare setting was changed. The privacy-status pages are marked noindex/nofollow and are not presented as approved policies.

@@ -43,7 +43,7 @@ export async function onRequestPost({ request, env }) {
     return json({ ok: false, error: "payload_too_large" }, 413);
   }
 
-  if (!env.ANALYTICS_DB) {
+  if (env.ANALYTICS_ENABLED !== "true" || !env.ANALYTICS_DB) {
     return json({ ok: false, error: "analytics_not_configured" }, 503);
   }
 
