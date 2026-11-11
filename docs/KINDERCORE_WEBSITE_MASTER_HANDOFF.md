@@ -428,3 +428,6 @@ Binding подтверждает доступность D1 для Pages Function
 - Analytics/D1 collection remains disabled. The analytics endpoint exists in the repository but no client event sender is enabled; D1 jurisdiction does not establish Russian localisation.
 - Public Pages URL could not be inspected through the available page fetch in this audit; production visual acceptance remains unverified. CI must pass and owner browser acceptance is still required.
 - No CRM/AI Company repositories, domain, DNS, Cloudflare settings or production deployment configuration were changed.
+
+
+- Additional privacy safeguard: the analytics API now returns 503 unless both the D1 binding exists and the explicit environment flag ANALYTICS_ENABLED=true is set. The default is off; no Cloudflare setting was changed. The privacy-status pages are marked noindex/nofollow and are not presented as approved policies.
