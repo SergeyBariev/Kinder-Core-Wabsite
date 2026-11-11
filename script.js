@@ -30,3 +30,26 @@ if (requestType && partnerComment) {
   requestType.addEventListener("change", syncCommentVisibility);
   syncCommentVisibility();
 }
+
+
+/* Progressive scroll reveal for content cards */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (!reduceMotion && "IntersectionObserver" in window) {
+  const revealItems = document.querySelectorAll(".feature-card, .step-card, .detail-card, .audience-item");
+  if (revealItems.length) {
+    document.documentElement.classList.add("motion-ready");
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -36px 0px" });
+    revealItems.forEach((item, index) => {
+      item.classList.add("reveal-on-scroll");
+      item.style.transitionDelay = String((index % 4) * 65) + "ms";
+      revealObserver.observe(item);
+    });
+  }
+}
