@@ -289,3 +289,17 @@ button,a{-webkit-tap-highlight-color:transparent}
 .form-status{margin:16px 0 0;padding:13px 15px;border-radius:9px;background:#fff8e8;color:#77551a;font-size:12px;line-height:1.7}
 .lead-form .button{margin-top:20px}
 @media(max-width:760px){.contact-form-panel{padding:27px 21px}.form-grid{grid-template-columns:1fr}.form-grid .full-field{grid-column:auto}}
+
+
+/* Real product screenshots */
+.product-shot-hero{align-self:center}
+.screenshot-frame{min-width:0;margin:0;overflow:hidden;border:1px solid var(--line);border-radius:16px;background:#fff;box-shadow:0 14px 36px #17365b0b}
+.screenshot-frame img{display:block;width:100%;height:auto;object-fit:cover}
+.screenshot-frame figcaption{padding:13px 17px;border-top:1px solid #edf1f7;color:#526781;font-size:12px;line-height:1.6}
+.screenshot-dashboard{width:100%;aspect-ratio:2.3/1}
+.screenshot-dashboard img{width:100%;height:100%;object-position:top;object-fit:cover}
+.screenshot-wide{grid-column:1/-1}
+.screenshot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.product-showcase{background:#fff}
+.product-showcase .section-heading{margin-bottom:30px}
+@media(max-width:760px){.screenshot-grid{grid-template-columns:1fr;gap:15px}.screenshot-frame figcaption{padding:11px 13px;font-size:11px}.screenshot-dashboard{aspect-ratio:1.65/1}.screenshot-wide{grid-column:auto}}
