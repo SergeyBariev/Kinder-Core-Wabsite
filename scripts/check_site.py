@@ -6,7 +6,7 @@ from urllib.parse import urlsplit
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED_FILES = ("styles.css", "script.js", "favicon.svg", "robots.txt", "sitemap.xml")
+REQUIRED_FILES = ("styles.css", "script.js", "favicon.svg", "robots.txt", "sitemap.xml", "functions/api/analytics.js")
 REQUIRED_PAGES = ("index.html", "partners/index.html", "en/index.html", "en/partners/index.html", "privacy.html")
 
 
@@ -61,6 +61,9 @@ def main():
     for required in REQUIRED_FILES:
         if not (ROOT / required).is_file():
             errors.append(f"required file is missing: {required}")
+    analytics_source = (ROOT / "functions/api/analytics.js").read_text(encoding="utf-8") if (ROOT / "functions/api/analytics.js").is_file() else ""
+    if 'env.ANALYTICS_ENABLED !== "true"' not in analytics_source:
+        errors.append("analytics endpoint must remain disabled unless ANALYTICS_ENABLED=true")
     for required in REQUIRED_PAGES:
         if not (ROOT / required).is_file():
             errors.append(f"required page is missing: {required}")
