@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-"""Dependency-free static checks for the KinderCore landing page."""
+"""Dependency-free static checks for every public KinderCore HTML page."""
 from html.parser import HTMLParser
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-HTML_FILE = ROOT / "index.html"
+EXTERNAL_PREFIXES = ("https://", "http://", "data:", "mailto:", "tel:", "//")
 
 
 class SiteParser(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
-        self.ids = []
+        self.ids = set()
         self.references = []
-        self.title_text = []
+        self.title = []
         self.in_title = False
         self.lang = None
         self.description = None
@@ -24,8 +24,10 @@ class SiteParser(HTMLParser):
         attrs = dict(attrs)
         if tag == "html":
             self.lang = attrs.get("lang")
-        if "id" in attrs:
-            self.ids.append(attrs["id"])
+        if attrs.get("id"):
+            if attrs["id"] in self.ids:
+                self.errors.append(f"duplicate id: {attrs['id']}")
+            self.ids.add(attrs["id"])
         if tag == "h1":
             self.h1_count += 1
         if tag == "title":
@@ -38,8 +40,8 @@ class SiteParser(HTMLParser):
                 self.references.append((tag, value))
         if tag == "a":
             href = attrs.get("href", "")
-            if href.startswith("#") and len(href) > 1:
-                self.references.append(("anchor", href[1:]))
+            if href:
+                self.references.append(("anchor", href))
 
     def handle_endtag(self, tag):
         if tag == "title":
@@ -47,49 +49,62 @@ class SiteParser(HTMLParser):
 
     def handle_data(self, data):
         if self.in_title:
-            self.title_text.append(data.strip())
+            self.title.append(data.strip())
+
+
+def resolve_local(source, value):
+    clean = value.split("?", 1)[0].split("#", 1)[0]
+    if not clean:
+        return source
+    target = ROOT / clean.lstrip("/") if clean.startswith("/") else (source.parent / clean)
+    if target.is_dir():
+        target = target / "index.html"
+    return target.resolve()
 
 
 def main():
     errors = []
-    if not HTML_FILE.exists():
-        print("FAIL: index.html is missing")
+    pages = sorted(ROOT.rglob("*.html"))
+    if not pages:
+        print("FAIL: no HTML pages found")
         return 1
 
-    parser = SiteParser()
-    parser.feed(HTML_FILE.read_text(encoding="utf-8"))
-
-    if parser.lang != "ru":
-        errors.append("html lang should be ru")
-    if not "".join(parser.title_text).strip():
-        errors.append("page title is missing")
-    if not parser.description or len(parser.description.strip()) < 50:
-        errors.append("meta description is missing or too short")
-    if parser.h1_count != 1:
-        errors.append(f"expected exactly one h1, found {parser.h1_count}")
-
-    duplicates = sorted({item for item in parser.ids if parser.ids.count(item) > 1})
-    if duplicates:
-        errors.append("duplicate id values: " + ", ".join(duplicates))
-
-    for kind, value in parser.references:
-        if kind == "anchor":
-            if value not in parser.ids:
-                errors.append(f"anchor target #{value} does not exist")
+    parsed_pages = {}
+    for page in pages:
+        parser = SiteParser()
+        try:
+            parser.feed(page.read_text(encoding="utf-8"))
+        except Exception as exc:
+            errors.append(f"{page.relative_to(ROOT)}: cannot parse HTML: {exc}")
             continue
-        if value.startswith(("https://", "http://", "data:", "mailto:", "tel:", "//")):
-            continue
-        local_path = value.split("?", 1)[0].split("#", 1)[0]
-        if not local_path:
-            continue
-        if local_path.startswith("/"):
-            target = ROOT / local_path.lstrip("/")
-        else:
-            target = ROOT / local_path
-        if not target.exists():
-            errors.append(f"local {kind} reference does not exist: {value}")
+        parsed_pages[page.resolve()] = parser
+        relative = page.relative_to(ROOT).as_posix()
+        if not parser.lang:
+            errors.append(f"{relative}: html lang is missing")
+        if not "".join(parser.title).strip():
+            errors.append(f"{relative}: title is missing")
+        if not parser.description or len(parser.description.strip()) < 40:
+            errors.append(f"{relative}: meta description is missing or too short")
+        if parser.h1_count != 1:
+            errors.append(f"{relative}: expected exactly one h1, found {parser.h1_count}")
+        errors.extend(f"{relative}: {item}" for item in parser.errors)
 
-    for required in ("styles.css", "script.js", "favicon.svg", "robots.txt"):
+    for page, parser in parsed_pages.items():
+        relative = page.relative_to(ROOT).as_posix()
+        for kind, value in parser.references:
+            if value.startswith(EXTERNAL_PREFIXES):
+                continue
+            target = resolve_local(page, value)
+            if not target.exists():
+                errors.append(f"{relative}: broken local {kind} reference: {value}")
+                continue
+            if kind == "anchor" and "#" in value:
+                fragment = value.split("#", 1)[1]
+                target_parser = parsed_pages.get(target)
+                if target_parser and fragment and fragment not in target_parser.ids:
+                    errors.append(f"{relative}: missing anchor target {value}")
+
+    for required in ("styles.css", "script.js", "favicon.svg", "robots.txt", "sitemap.xml"):
         if not (ROOT / required).is_file():
             errors.append(f"required file is missing: {required}")
 
@@ -100,10 +115,9 @@ def main():
         return 1
 
     print("Static website checks passed.")
-    print(f"- HTML language: {parser.lang}")
-    print(f"- H1 count: {parser.h1_count}")
-    print(f"- Unique IDs: {len(set(parser.ids))}")
-    print(f"- Local references checked: {len(parser.references)}")
+    print(f"- HTML pages: {len(parsed_pages)}")
+    print("- Every page has a language, title, description and exactly one H1")
+    print("- Local assets, navigation links and in-page anchors checked")
     return 0
 
 
