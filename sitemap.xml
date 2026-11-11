@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://kinder-core-wabsite.pages.dev/</loc>
-  </url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/features.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/how-it-works.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/payments.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/faq.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/partners/</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/en/</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/en/features.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/en/how-it-works.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/en/payments.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/en/faq.html</loc></url>
+  <url><loc>https://kinder-core-wabsite.pages.dev/en/partners/</loc></url>
 </urlset>
