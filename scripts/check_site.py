@@ -94,9 +94,14 @@ def main():
             if parts.path and not target.exists():
                 errors.append(f"{relative}: local {kind} reference does not exist: {value}")
                 continue
-            if parts.fragment and (not parts.path or parts.path in ("/", relative, "/" + relative)):
-                if parts.fragment not in parser.ids:
-                    errors.append(f"{relative}: anchor target #{parts.fragment} does not exist")
+            if parts.fragment:
+                if kind == "a":
+                    target_rel = target.relative_to(ROOT).as_posix()
+                    target_parser = parsed.get(target_rel)
+                else:
+                    target_parser = parser if not parts.path else None
+                if target_parser and parts.fragment not in target_parser.ids:
+                    errors.append(f"{relative}: anchor target #{parts.fragment} does not exist in {target_rel if kind == 'a' else relative}")
 
     if errors:
         print("Static website checks failed:")
